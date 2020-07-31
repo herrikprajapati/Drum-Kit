@@ -10,8 +10,28 @@ for (var i = 0; i < document.querySelectorAll(".drum").length; i++){
 function handleClick() {
 
     var buttonInnerHTML = this.innerHTML;
+    
+    makeSound(buttonInnerHTML);
 
-    switch (buttonInnerHTML) {
+    buttonAnimation(buttonInnerHTML);
+
+}
+
+//Detecting KeyPress from KEYBOARD
+
+document.addEventListener("keydown", function(event){            //Using ANONYMOUS Function instead of function Name (Like USED at handleClick)
+                                            //event is object passing in the function to get the value of the Pressed KEY
+    makeSound(event.key);
+
+    buttonAnimation(event.key);
+
+
+});
+
+
+function makeSound(key){
+
+    switch (key) {
         case "w":
             var tom1 = new Audio("sounds/tom-1.mp3");
             tom1.play();
@@ -48,57 +68,19 @@ function handleClick() {
             break;
 
         default: 
-            console.log(buttonInnerHTML);
+            console.log(key);
             break;
     }
-
 }
 
-//Detecting KeyPress from KEYBOARD
+function buttonAnimation(currentKey) {
 
-document.addEventListener("keydown", function(event){            //Using ANONYMOUS Function instead of function Name (Like USED at handleClick)
-                                            //event is object passing in the function to get the value of the Pressed KEY
-    var pressedKey = event.code;
+    var activeButton = document.querySelector("." + currentKey);
 
-    switch (pressedKey) {
-        case "KeyW":
-            var tom1 = new Audio("sounds/tom-1.mp3");
-            tom1.play();
-            break;
-        
-        case "KeyA":
-            var tom2 = new Audio("sounds/tom-2.mp3");
-            tom2.play();
-            break;
+    activeButton.classList.add("pressed");
 
-        case "KeyS":
-            var tom3 = new Audio("sounds/tom-3.mp3");
-            tom3.play();
-            break;
+    setTimeout(function (){
+        activeButton.classList.remove("pressed");
+    }, 100);
 
-        case "KeyD":
-            var tom4 = new Audio("sounds/tom-4.mp3");
-            tom4.play();
-            break;
-            
-        case "KeyJ":
-            var snare = new Audio("sounds/snare.mp3");
-            snare.play();
-            break;
-            
-        case "KeyK":
-            var crash = new Audio("sounds/crash.mp3");
-            crash.play();
-            break;
-
-        case "KeyL":
-            var kick = new Audio("sounds/kick-bass.mp3");
-            kick.play();
-            break;
-
-        default: 
-            console.log(pressedKey);
-            break;
-    }
-
-});
+}
